@@ -122,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `scrumlab`.`pages` (
 ENGINE = InnoDB;
 
 
-CREATE TABLE `book` (
+CREATE TABLE `recipe` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `title` varchar(255) COLLATE utf8_polish_ci NOT NULL,
   `author` varchar(255) COLLATE utf8_polish_ci NOT NULL,

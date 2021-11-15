@@ -6,7 +6,7 @@
               username="root"
               password="coderslab"
               driverClassName="com.mysql.jdbc.Driver"
-              connectionProperties="useUnicode=yes;characterEncoding=utf8;useSSL=false"
+              connectionProperties="useUnicode=yes;characterEncoding=utf8;useSSL=false;serverTimezone=UTC"
               url="jdbc:mysql://localhost:3306/scrumlab"
               maxTotal="100"
               maxIdle="30"

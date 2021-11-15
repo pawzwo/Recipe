@@ -22,6 +22,7 @@ public class HomeServlet extends HttpServlet {
         List<Book> books = bookDao.findAll();
         System.out.println(books);
         System.out.println("Hello sample");
+        System.out.println("hello 2");
 
         getServletContext().getRequestDispatcher("/home.jsp").forward(request, response);
     }

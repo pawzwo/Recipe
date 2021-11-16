@@ -14,13 +14,13 @@ import java.util.List;
 public class RecipeDao {
     // ZAPYTANIA SQL
     private static final String CREATE_RECIPE_QUERY = "INSERT INTO scrumlab.recipe (name, ingredients, " +
-            "description, created, updated, preparation_time, preparation, admin_id) " +
-            "VALUES (?, ?, ?, ?,?, ?, ?, ?)";
+            "description, created, preparation_time, preparation, admin_id) " +
+            "VALUES (?, ?, ?, ?,?, ?, ?)";
     private static final String DELETE_RECIPE_QUERY = "DELETE FROM scrumlab.recipe where id = ?;";
     private static final String FIND_ALL_RECIPES_QUERY = "SELECT * FROM scrumlab.recipe;";
     private static final String READ_RECIPE_QUERY = "SELECT * from scrumlab.recipe where id = ?;";
     private static final String UPDATE_RECIPE_QUERY = "UPDATE	scrumlab.recipe SET name = ? , ingredients = ?," +
-            " description= ? , created= ?, updated = ? , preparation_time = ?, preparation= ? , admin_id= ? " +
+            " description= ? , updated = ? , preparation_time = ?, preparation= ? , admin_id= ? " +
             "WHERE	id = ?;";
 
     /**
@@ -101,10 +101,9 @@ public class RecipeDao {
             insertStm.setString(2, recipe.getIngredients());
             insertStm.setString(3, recipe.getDescription());
             insertStm.setString(4, recipe.getCreated());
-            insertStm.setString(5, recipe.getUpdated());
-            insertStm.setInt(6, recipe.getPreparationTime());
-            insertStm.setString(7, recipe.getPreparation());
-            insertStm.setInt(8, recipe.getAdminId());
+            insertStm.setInt(5, recipe.getPreparationTime());
+            insertStm.setString(6, recipe.getPreparation());
+            insertStm.setInt(7, recipe.getAdminId());
             int result = insertStm.executeUpdate();
 
             if (result != 1) {
@@ -160,12 +159,11 @@ public class RecipeDao {
             statement.setString(1, recipe.getName());
             statement.setString(2, recipe.getIngredients());
             statement.setString(3, recipe.getDescription());
-            statement.setString(4, recipe.getCreated());
-            statement.setString(5, recipe.getUpdated());
-            statement.setInt(6, recipe.getPreparationTime());
-            statement.setString(7, recipe.getPreparation());
-            statement.setInt(8, recipe.getAdminId());
-            statement.setInt(9,recipe.getId());
+            statement.setString(4, recipe.getUpdated());
+            statement.setInt(5, recipe.getPreparationTime());
+            statement.setString(6, recipe.getPreparation());
+            statement.setInt(7, recipe.getAdminId());
+            statement.setInt(8,recipe.getId());
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

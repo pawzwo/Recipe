@@ -13,11 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlanDao {
-    private static final String CREATE_PLAN_QUERY = "INSERT INTO plan(name,description,created) VALUES (?,?,?);";
+    private static final String CREATE_PLAN_QUERY = "INSERT INTO plan(name,description,created, adminId) VALUES (?,?,?,?);";
     private static final String DELETE_PLAN_QUERY = "DELETE FROM plan where id = ?;";
     private static final String FIND_ALL_PLANS_QUERY = "SELECT * FROM plan;";
     private static final String READ_PLAN_QUERY = "SELECT * from plan where id = ?;";
-    private static final String UPDATE_PLAN_QUERY = "UPDATE	plan SET name = ? , description = ?, created = ? WHERE	id = ?;";
+    private static final String UPDATE_PLAN_QUERY = "UPDATE	plan SET name = ? , description = ?, created = ?, adminId = ? WHERE	id = ?;";
 
 
 
@@ -74,6 +74,7 @@ public class PlanDao {
             insertStm.setString(1, plan.getName());
             insertStm.setString(2, plan.getDescription());
             insertStm.setString(3, plan.getCreated());
+            insertStm.setInt(4, plan.getAdminId());
             int result = insertStm.executeUpdate();
 
             if (result != 1) {

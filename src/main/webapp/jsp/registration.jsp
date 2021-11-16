@@ -26,6 +26,7 @@
                         <div class="form-group">
                             <input type="email" class="form-control" id="email" name="email" placeholder="podaj email" value="${param.email}" required>
                         </div>
+
                         <c:if test="${param.pass==0}">
                             <label style="color: red">podane hasła róznią się</label>
                         </c:if>

@@ -32,6 +32,7 @@ public class Register extends HttpServlet {
                 AdminDao adminDao = new AdminDao();
                 Admins admins = new Admins(name, surname, email, password);
                 adminDao.create(admins);
+
                 response.sendRedirect("/login");
             }
         }

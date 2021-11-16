@@ -7,6 +7,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(name = "Register", value = "/register")
 public class Register extends HttpServlet {
@@ -26,14 +27,25 @@ public class Register extends HttpServlet {
         if (name!=null && surname!=null && email!=null && password!=null && repassword!=null
         && !name.isEmpty() && !surname.isEmpty() && !email.isEmpty() && !password.isEmpty() && !repassword.isEmpty()
         && !name.isBlank() && !surname.isBlank() && !email.isBlank() && !password.isBlank() && !repassword.isBlank()) {
-            if (!password.equals(repassword)) {
-                response.sendRedirect("/register?pass=0&name="+name+"&surname="+surname+"&email="+email);
+            AdminDao adminDao = new AdminDao();
+            List<Admins> all = adminDao.findAll();
+            boolean isEmailUnique = true;
+            for (Admins admins : all) {
+                if (email.equals(admins.getEmail())) {
+                    isEmailUnique=false;
+                    break;
+                }
+            }
+            if (isEmailUnique) {
+                if (!password.equals(repassword)) {
+                    response.sendRedirect("/register?pass=0&name=" + name + "&surname=" + surname + "&email=" + email);
+                } else {
+                    Admins admins = new Admins(name, surname, email, password);
+                    adminDao.create(admins);
+                    response.sendRedirect("/login");
+                }
             } else {
-                AdminDao adminDao = new AdminDao();
-                Admins admins = new Admins(name, surname, email, password);
-                adminDao.create(admins);
-
-                response.sendRedirect("/login");
+                response.sendRedirect("/register?mail=0&name=" + name + "&surname=" + surname);
             }
         }
     }

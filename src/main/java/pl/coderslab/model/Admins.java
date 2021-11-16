@@ -9,16 +9,15 @@ public class Admins {
     private String lastName = "lastName";
     private String email = "email";
     private String password = "password";
-    private int superadmin = 0;
-    private int enable = 0;
+    private int superAdmin = 0;
+    private int enable = 1;
 
-    public Admins(String firstName, String lastName, String email, String password, int superadmin, int enable) {
+    public Admins(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = hashPassword(password);
-        this.superadmin = superadmin;
-        this.enable = enable;
+
     }
 
     public Admins() {
@@ -39,7 +38,7 @@ public class Admins {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", superadmin=" + superadmin +
+                ", superadmin=" + superAdmin +
                 ", enable=" + enable +
                 '}';
     }
@@ -84,12 +83,12 @@ public class Admins {
         this.password = password;
     }
 
-    public int getSuperadmin() {
-        return superadmin;
+    public int getSuperAdmin() {
+        return superAdmin;
     }
 
-    public void setSuperadmin(int superadmin) {
-        this.superadmin = superadmin;
+    public void setSuperAdmin(int superAdmin) {
+        this.superAdmin = superAdmin;
     }
 
     public int getEnable() {

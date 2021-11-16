@@ -2,7 +2,6 @@ package pl.coderslab.dao;
 
 import pl.coderslab.exception.NotFoundException;
 import pl.coderslab.model.Admins;
-import pl.coderslab.model.Book;
 import pl.coderslab.utils.DbUtil;
 
 import java.sql.Connection;
@@ -40,7 +39,7 @@ public class AdminDao {
                     admin.setLastName(resultSet.getString("last_name"));
                     admin.setEmail(resultSet.getString("email"));
                     admin.setPassword(resultSet.getString("password"));
-                    admin.setSuperadmin(resultSet.getInt("superadmin"));
+                    admin.setSuperAdmin(resultSet.getInt("superadmin"));
                     admin.setEnable(resultSet.getInt("enable"));
                 }
             }
@@ -69,7 +68,7 @@ public class AdminDao {
                 adminToAdd.setLastName(resultSet.getString("last_name"));
                 adminToAdd.setEmail(resultSet.getString("email"));
                 adminToAdd.setPassword(resultSet.getString("password"));
-                adminToAdd.setSuperadmin(resultSet.getInt("superadmin"));
+                adminToAdd.setSuperAdmin(resultSet.getInt("superadmin"));
                 adminToAdd.setEnable(resultSet.getInt("enable"));
                 adminsList.add(adminToAdd);
             }
@@ -96,7 +95,7 @@ public class AdminDao {
             insertStm.setString(2, admin.getLastName());
             insertStm.setString(3, admin.getEmail());
             insertStm.setString(4, admin.getPassword());
-            insertStm.setInt(5, admin.getSuperadmin());
+            insertStm.setInt(5, admin.getSuperAdmin());
             insertStm.setInt(6, admin.getEnable());
             int result = insertStm.executeUpdate();
 
@@ -154,13 +153,13 @@ public class AdminDao {
             statement.setString(2, admin.getLastName());
             statement.setString(3, admin.getEmail());
             statement.setString(4, admin.getPassword());
-            statement.setInt(5, admin.getSuperadmin());
+            statement.setInt(5, admin.getSuperAdmin());
             statement.setInt(6, admin.getEnable());
-
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
+
 }

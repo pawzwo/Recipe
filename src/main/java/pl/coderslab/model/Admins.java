@@ -39,7 +39,6 @@ public class Admins {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
                 ", superadmin=" + superadmin +
                 ", enable=" + enable +
                 '}';

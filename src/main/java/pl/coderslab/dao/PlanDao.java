@@ -2,11 +2,10 @@ package pl.coderslab.dao;
 
 
 import pl.coderslab.exception.NotFoundException;
+import pl.coderslab.model.PlanDays;
 import pl.coderslab.model.Plan;
 import pl.coderslab.utils.DbUtil;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,8 +20,36 @@ public class PlanDao {
     private static final String READ_PLAN_QUERY = "SELECT * from plan where id = ?;";
     private static final String UPDATE_PLAN_QUERY = "UPDATE	plan SET name = ? , description = ?, created = ?, adminId = ? WHERE	id = ?;";
     private static final String COUNT_PLANS_QUERY = "SELECT COUNT(*) AS plans FROM plan WHERE admin_id=?;";
+    private static final String READ_LAST_PLAN_QUERY = "SELECT day_name.name as day_name, meal_name,  recipe.name as recipe_name, recipe.description as recipe_description\n" +
+            "FROM `recipe_plan`\n" +
+            "JOIN day_name on day_name.id=day_name_id\n" +
+            "JOIN recipe on recipe.id=recipe_id WHERE\n" +
+            "recipe_plan.plan_id =  (SELECT MAX(id) from plan WHERE admin_id = ?)\n" +
+            "ORDER by day_name.display_order, recipe_plan.display_order;";
 
 
+
+    public List<PlanDays> readLastPlan(int adminId) {
+        List<PlanDays> planDaysList = new ArrayList<>();
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(READ_LAST_PLAN_QUERY)
+        ) {
+            statement.setInt(1, adminId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    PlanDays planDay = new PlanDays();
+                    planDay.setDayName(resultSet.getString("day_name"));
+                    planDay.setMealName(resultSet.getString("meal_name"));
+                    planDay.setRecipeName(resultSet.getString("recipe_name"));
+                    planDay.setRecipeDescription(resultSet.getString("recipe_description"));
+                    planDaysList.add(planDay);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return planDaysList;
+    }
 
     public int countPlans(int adminId) {
         int numPlans = 0;

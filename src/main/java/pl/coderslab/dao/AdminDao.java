@@ -21,10 +21,8 @@ public class AdminDao {
     private static final String FIND_ALL_ADMINS_QUERY = "SELECT * FROM admins;";
     private static final String READ_ADMIN_QUERY = "SELECT * from admins where id = ?;";
     private static final String UPDATE_ADMIN_QUERY = "UPDATE admins SET first_name=?, last_name=?, email=?, password=?,  superadmin = ?, enable = ? WHERE id = ?;";
-    private static final String VERIFY_PASSWORD_QUERY = "SELECT * FROM admins WHERE email = ?;";
+    private static final String READ_ADMIN_BYEMAIL_QUERY = "SELECT * FROM admins WHERE email = ?;";
     private static final String VERIFY_EMAIL_QUERY = "SELECT EXISTS(SELECT 1 FROM admins where email = ?) AS checkEmail;";
-
-
 
 
     /**
@@ -57,27 +55,40 @@ public class AdminDao {
      *
      * @param email
      * @param password
-     * @return verified admin
+     * @return boolean
      */
-    public Admins verifyPassword(String email, String password) {
+    public boolean verifyPassword(String email, String password) {
+        return BCrypt.checkpw(password, readByEmail(email).getPassword());
+
+    }
+
+    /**
+     * Get admin by email
+     *
+     * @param email
+     * @return
+     */
+    public Admins readByEmail(String email) {
+        Admins admin = new Admins();
         try (Connection connection = DbUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement(VERIFY_PASSWORD_QUERY)
+             PreparedStatement statement = connection.prepareStatement(READ_ADMIN_BYEMAIL_QUERY)
         ) {
             statement.setString(1, email);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    boolean checkPassword = BCrypt.checkpw(password, resultSet.getString("password"));
-                    if (checkPassword) {
-                        return read(resultSet.getInt("id"));
-                    } else if (!checkPassword) {
-                        return null;
-                    }
+                    admin.setId(resultSet.getInt("id"));
+                    admin.setFirstName(resultSet.getString("first_name"));
+                    admin.setLastName(resultSet.getString("last_name"));
+                    admin.setEmail(resultSet.getString("email"));
+                    admin.setPassword(resultSet.getString("password"));
+                    admin.setSuperAdmin(resultSet.getInt("superadmin"));
+                    admin.setEnable(resultSet.getInt("enable"));
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return admin;
     }
 
     /**

@@ -22,6 +22,8 @@ public class RecipeDao {
     private static final String UPDATE_RECIPE_QUERY = "UPDATE	scrumlab.recipe SET name = ? , ingredients = ?," +
             " description= ? , updated = ? , preparation_time = ?, preparation= ? , admin_id= ? " +
             "WHERE	id = ?;";
+    private static final String SELECT_RECIPES_BY_ID_QUERY = "SELECT COUNT(*) AS recipes FROM recipe WHERE admin_id=?";
+
 
     /**
      * Get book by id
@@ -170,5 +172,26 @@ public class RecipeDao {
         }
 
     }
+
+
+    public int recipeQuantity (int adminId) {
+        int quantity = -1;
+        try (Connection connection = DbUtil.getConnection()) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_RECIPES_BY_ID_QUERY);
+            preparedStatement.setInt(1,adminId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+
+                if (resultSet.next()) {
+                    quantity=resultSet.getInt("recipes");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return quantity;
+    }
+
+
 
 }

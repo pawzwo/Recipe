@@ -14,10 +14,18 @@
             <div class="container w-25">
                 <form class="padding-small text-center" action="/login" method="POST">
                     <h1 class="text-color-darker">Logowanie</h1>
+                    <c:if test="${param.email==0}">
+                        <label style="color: red">Niepoprawny email, pij Buerlecytyne zamiast diety układać!</label>
+                    </c:if>
                     <div class="form-group">
+                        <label for="email"></label>
                         <input type="text" class="form-control" id="email" name="email" placeholder="podaj adres email">
                     </div>
+                    <c:if test="${param.password==0}">
+                        <label style="color: red">Niepoprawne hasło, cholerny hakierze nie dostaniesz naszych przepisów!</label>
+                    </c:if>
                     <div class="form-group">
+                        <label for="password"></label>
                         <input type="text" class="form-control" id="password" name="password" placeholder="podaj hasło">
                     </div>
                     <button class="btn btn-color rounded-0" type="submit">Zaloguj</button>

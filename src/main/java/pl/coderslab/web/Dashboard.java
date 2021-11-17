@@ -11,14 +11,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "Dashboard", value = "/dashboard")
+@WebServlet(name = "Dashboard", value = "/app/dashboard")
 public class Dashboard extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        if (true) { //session.getAttribute("id")!=null
-           // int adminId = (Integer) session.getAttribute("id");
-            int adminId=2; // to do usuniecia jak juz bedzie login
+        if (session.getAttribute("id")!=null) {
+            int adminId = (Integer) session.getAttribute("id");
             RecipeDao recipeDao = new RecipeDao();
             PlanDao planDao = new PlanDao();
             request.setAttribute("recipeQua",recipeDao.recipeQuantity(adminId));

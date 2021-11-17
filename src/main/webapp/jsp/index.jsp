@@ -7,10 +7,10 @@
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="/jsp/header.jsp" %>
+<%@ include file="/jsp/headrers&footers/header.jsp" %>
 <main>
 
 </main>
 
-<%@ include file="/jsp/footer.jsp" %>
+<%@ include file="/jsp/headrers&footers/footer.jsp" %>
 

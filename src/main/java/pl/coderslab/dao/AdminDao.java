@@ -1,8 +1,10 @@
 package pl.coderslab.dao;
 
+import org.mindrot.jbcrypt.BCrypt;
 import pl.coderslab.exception.NotFoundException;
 import pl.coderslab.model.Admins;
 import pl.coderslab.utils.DbUtil;
+//import sun.security.util.Password;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,6 +21,60 @@ public class AdminDao {
     private static final String FIND_ALL_ADMINS_QUERY = "SELECT * FROM admins;";
     private static final String READ_ADMIN_QUERY = "SELECT * from admins where id = ?;";
     private static final String UPDATE_ADMIN_QUERY = "UPDATE admins SET first_name=?, last_name=?, email=?, password=?,  superadmin = ?, enable = ? WHERE id = ?;";
+    private static final String VERIFY_PASSWORD_QUERY = "SELECT * FROM admins WHERE email = ?;";
+    private static final String VERIFY_EMAIL_QUERY = "SELECT EXISTS(SELECT 1 FROM admins where email = ?) AS checkEmail;";
+
+
+
+
+    /**
+     * Find email in DB
+     *
+     * @param email
+     * @return boolean
+     */
+    public boolean verifyEmail(String email) {
+        boolean checkEmail = false;
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(VERIFY_EMAIL_QUERY)
+        ) {
+            statement.setString(1, email);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    if (resultSet.getInt("checkEmail") == 1) {
+                        checkEmail = true;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return checkEmail;
+    }
+
+    /**
+     * Get admin by email
+     *
+     * @param email
+     * @param password
+     * @return boolean
+     */
+    public boolean verifyPassword(String email, String password) {
+        boolean checkPassword = false;
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(VERIFY_PASSWORD_QUERY)
+        ) {
+            statement.setString(1, email);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    checkPassword = BCrypt.checkpw(password, resultSet.getString("password"));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return checkPassword;
+    }
 
     /**
      * Get admin by id
@@ -95,7 +151,8 @@ public class AdminDao {
             insertStm.setString(2, admin.getLastName());
             insertStm.setString(3, admin.getEmail());
             insertStm.setString(4, admin.getPassword());
-            insertStm.setInt(5, admin.getSuperAdmin());
+            insertStm
+                    .setInt(5, admin.getSuperAdmin());
             insertStm.setInt(6, admin.getEnable());
             int result = insertStm.executeUpdate();
 

@@ -57,23 +57,27 @@ public class AdminDao {
      *
      * @param email
      * @param password
-     * @return boolean
+     * @return verified admin
      */
-    public boolean verifyPassword(String email, String password) {
-        boolean checkPassword = false;
+    public Admins verifyPassword(String email, String password) {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(VERIFY_PASSWORD_QUERY)
         ) {
             statement.setString(1, email);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    checkPassword = BCrypt.checkpw(password, resultSet.getString("password"));
+                    boolean checkPassword = BCrypt.checkpw(password, resultSet.getString("password"));
+                    if (checkPassword) {
+                        return read(resultSet.getInt("id"));
+                    } else if (!checkPassword) {
+                        return null;
+                    }
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return checkPassword;
+        return null;
     }
 
     /**

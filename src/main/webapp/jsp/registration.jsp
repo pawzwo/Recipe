@@ -18,19 +18,27 @@
                     <form class="padding-small text-center" method="post">
                         <h1 class="text-color-darker">Rejestracja</h1>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="name" name="name" placeholder="podaj imię">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="podaj imię" value="${param.name}" required>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="surname" name="surname" placeholder="podaj nazwisko">
+                            <input type="text" class="form-control" id="surname" name="surname" placeholder="podaj nazwisko" value="${param.surname}" required>
+                        </div>
+                        <c:if test="${param.mail==0}">
+                            <label style="color: red">podany e-mail juz istnieje</label>
+                        </c:if>
+                        <div class="form-group">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="podaj email" value="${param.email}" required>
+                        </div>
+
+                        <c:if test="${param.pass==0}">
+                            <label style="color: red">podane hasła róznią się</label>
+                        </c:if>
+
+                        <div class="form-group">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="podaj hasło" required>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="email" name="email" placeholder="podaj email">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="password" name="password" placeholder="podaj hasło">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="repassword" name="password" placeholder="powtórz hasło">
+                            <input type="password" class="form-control" id="repassword" name="repassword" placeholder="powtórz hasło" required>
                         </div>
                         <button class="btn btn-color rounded-0" type="submit">Zarejestruj</button>
                     </form>

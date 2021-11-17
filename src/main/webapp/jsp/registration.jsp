@@ -7,8 +7,7 @@
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="/jsp/header.jsp" %>
-<main>
+<%@ include file="/jsp/headrers&footers/header.jsp" %>
     <section class="dashboard-section">
         <div class="container pt-4 pb-4">
             <div class="border-dashed view-height">
@@ -46,6 +45,5 @@
             </div>
         </div>
     </section>
-</main>
 
-<%@ include file="/jsp/footer.jsp" %>
+<%@ include file="/jsp/headrers&footers/footer.jsp" %>

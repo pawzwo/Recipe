@@ -5,6 +5,8 @@ import pl.coderslab.exception.NotFoundException;
 import pl.coderslab.model.Plan;
 import pl.coderslab.utils.DbUtil;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,8 +20,26 @@ public class PlanDao {
     private static final String FIND_ALL_PLANS_QUERY = "SELECT * FROM plan;";
     private static final String READ_PLAN_QUERY = "SELECT * from plan where id = ?;";
     private static final String UPDATE_PLAN_QUERY = "UPDATE	plan SET name = ? , description = ?, created = ?, adminId = ? WHERE	id = ?;";
+    private static final String COUNT_PLANS_QUERY = "SELECT COUNT(*) AS plans FROM plan WHERE admin_id=?;";
 
 
+
+    public int countPlans(int adminId) {
+        int numPlans = 0;
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(COUNT_PLANS_QUERY)
+        ) {
+            statement.setInt(1, adminId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    numPlans = resultSet.getInt("plans");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return numPlans;
+    }
 
     public Plan read(Integer planId) {
         Plan plan=new Plan();

@@ -24,10 +24,7 @@ public class PlanDao {
 
 
 
-    public int countPlans(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Integer adminId = (Integer) session.getAttribute("id");
-        System.out.println(adminId);
+    public int countPlans(int adminId) {
         int numPlans = 0;
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(COUNT_PLANS_QUERY)
@@ -36,14 +33,12 @@ public class PlanDao {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     numPlans = resultSet.getInt("plans");
-                    System.out.println(numPlans);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return numPlans;
-
     }
 
     public Plan read(Integer planId) {

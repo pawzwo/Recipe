@@ -2,6 +2,7 @@ package pl.coderslab.web;
 
 import pl.coderslab.dao.PlanDao;
 import pl.coderslab.dao.RecipeDao;
+import pl.coderslab.model.Admins;
 import pl.coderslab.model.PlanDays;
 
 import javax.servlet.*;
@@ -16,13 +17,11 @@ public class Dashboard extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        if (session.getAttribute("id")!=null) {
-            int adminId = (Integer) session.getAttribute("id");
+        if (session.getAttribute("admin")!=null) {
+            Admins admin = (Admins) session.getAttribute("admin");
+            int adminId=admin.getId();
             RecipeDao recipeDao = new RecipeDao();
             PlanDao planDao = new PlanDao();
-            request.setAttribute("recipeQua",recipeDao.recipeQuantity(adminId));
-            request.setAttribute("planQua",planDao.countPlans(adminId));
-            request.setAttribute("planName",planDao.lastPlanName(adminId));
             List<PlanDays> planDays = planDao.readLastPlan(adminId);
             int[] daysMeal =new int [7]; //this table give me information how many different days we have
             for (PlanDays planDay : planDays) {
@@ -65,8 +64,11 @@ public class Dashboard extends HttpServlet {
                 j++;
             }
             request.setAttribute("plan",planDays);
-            request.setAttribute("daysMeal",daysMeal);
             request.setAttribute("days",days);
+            request.setAttribute("name",admin.getFirstName());
+            request.setAttribute("recipeQua",recipeDao.recipeQuantity(adminId));
+            request.setAttribute("planQua",planDao.countPlans(adminId));
+            request.setAttribute("planName",planDao.lastPlanName(adminId));
         }
         request.getRequestDispatcher("/jsp/appDashboard.jsp").forward(request, response);
     }

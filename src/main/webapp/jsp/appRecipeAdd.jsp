@@ -13,19 +13,19 @@
                         <button type="submit" class="btn btn-color rounded-0 pt-0 pb-0 pr-4 pl-4">Zapisz</button>
                     </div>
                 </div>
+                <c:if test="${param.badData==1}">
+                    <label style="color: #f37878">Wszytskie rekordy musza byc uzupełnione</label>
+                </c:if>
+                <c:if test="${param.notCreated==1}">
+                    <label style="color: #f37878">Ups... wystąpił bład w trakcie tworzenia przepisu spróbuj
+                        jeszcze raz </label>
+                </c:if>
 
                 <table class="table borderless">
                     <tbody>
                     <tr class="d-flex">
                         <th scope="row" class="col-2">Nazwa Przepisu</th>
                         <td class="col-7">
-                            <c:if test="${param.badData==1}">
-                                <label style="color: #f37878">Wszytskie rekordy musza byc uzupełnione</label>
-                            </c:if>
-                            <c:if test="${param.notCreated==1}">
-                                <label style="color: #f37878">Ups... wystąpił bład w trakcie tworzenia przepisu spróbuj
-                                    jeszcze raz </label>
-                            </c:if>
                             <input name="name" class="w-100 p-1" value="" required>
                         </td>
                     </tr>

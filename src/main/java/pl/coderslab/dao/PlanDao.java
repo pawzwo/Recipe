@@ -27,11 +27,40 @@ public class PlanDao {
             "recipe_plan.plan_id =  (SELECT MAX(id) from plan WHERE admin_id = ?)\n" +
             "ORDER by day_name.display_order, recipe_plan.display_order;";
     private static final String FIND_ALL_PLANS_BY_ADMIN_QUERY = "SELECT * FROM plan WHERE admin_id=? ORDER BY created DESC;";
-
-
     private static final String READ_LAST_PLAN_NAME_QUERY = "SELECT name from plan where id=(SELECT MAX(id) from plan WHERE admin_id = ?)";
+    private static final String READ_PLAN_DETAILS_QUERRY = "SELECT day_name.name as day_name, meal_name,  recipe.name as recipe_name, recipe.description as recipe_description\n" +
+            "FROM `recipe_plan`\n" +
+            "         JOIN day_name on day_name.id=day_name_id\n" +
+            "         JOIN recipe on recipe.id=recipe_id WHERE\n" +
+            "        recipe_plan.plan_id = ?\n" +
+            "ORDER by day_name.display_order, recipe_plan.display_order;";
 
-    public List<Plan> findAllbyAdmin(int adminId) {
+
+
+
+    public List<PlanDays> readPlanDetails(int planId) {
+        List<PlanDays> planDaysList = new ArrayList<>();
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(READ_PLAN_DETAILS_QUERRY)
+        ) {
+            statement.setInt(1, planId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    PlanDays planDay = new PlanDays();
+                    planDay.setDayName(resultSet.getString("day_name"));
+                    planDay.setMealName(resultSet.getString("meal_name"));
+                    planDay.setRecipeName(resultSet.getString("recipe_name"));
+                    planDay.setRecipeDescription(resultSet.getString("recipe_description"));
+                    planDaysList.add(planDay);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return planDaysList;
+    }
+
+    public List<Plan> findAllByAdmin(int adminId) {
         List<Plan> planListByAdmin = new ArrayList<>();
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_PLANS_BY_ADMIN_QUERY)) {

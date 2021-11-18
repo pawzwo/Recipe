@@ -11,7 +11,7 @@ import java.io.IOException;
 public class Login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-      
+
         request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
 
 
@@ -26,14 +26,10 @@ public class Login extends HttpServlet {
 
         AdminDao adminDao = new AdminDao();
         if (email != null && password != null && !email.isBlank() && !password.isBlank() && !email.isEmpty() && !password.isEmpty()) {
-            System.out.println("step1");
             if (adminDao.verifyEmail(email)) {
-                System.out.println("step2");
                 if (adminDao.verifyPassword(email, password)) {
                     int adminId = adminDao.readByEmail(email).getId();
                     int superadmin = adminDao.readByEmail(email).getSuperAdmin();
-                    System.out.println(adminId);
-                    System.out.println(superadmin);
                     HttpSession session = request.getSession();
                     session.setAttribute("id", adminId);
                     session.setAttribute("superadmin", superadmin);

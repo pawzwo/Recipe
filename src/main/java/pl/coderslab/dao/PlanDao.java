@@ -31,7 +31,7 @@ public class PlanDao {
 
     private static final String READ_LAST_PLAN_NAME_QUERY = "SELECT name from plan where id=(SELECT MAX(id) from plan WHERE admin_id = ?)";
 
-    public List<Plan> findAllbyAdmin(int adminId) {
+    public List<Plan> findAllByAdmin(int adminId) {
         List<Plan> planListByAdmin = new ArrayList<>();
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_PLANS_BY_ADMIN_QUERY)) {

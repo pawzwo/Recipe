@@ -48,13 +48,25 @@ public class Plan {
         this.adminId = adminId;
     }
 
-   public Plan(String name, String description, String created, int adminId){
-        this.name=name;
-        this.description=description;
-        this.created=created;
+    public Plan(String name, String description, String created, int adminId) {
+        this.name = name;
+        this.description = description;
+        this.created = created;
         this.adminId = adminId;
-   }
-   public Plan(){
+    }
 
-   }
+    public Plan() {
+
+    }
+
+    @Override
+    public String toString() {
+        return "Plan{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", created='" + created + '\'' +
+                ", adminId=" + adminId +
+                '}';
+    }
 }

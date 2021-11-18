@@ -22,7 +22,6 @@ public class AppPlanList extends HttpServlet {
         PlanDao planDao = new PlanDao();
         List<Plan> planListByAdmin = planDao.findAllByAdmin(admin.getId());
         request.setAttribute("planList", planListByAdmin);
-        System.out.println("success");
         request.getRequestDispatcher("/jsp/appPlanList.jsp").forward(request,response);
     }
 

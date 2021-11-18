@@ -40,8 +40,8 @@ public class Login extends HttpServlet {
             } else {
                 response.sendRedirect("/login?email=0");
             }
+        } else {
+            response.sendRedirect("/login");
         }
-
-
     }
 }

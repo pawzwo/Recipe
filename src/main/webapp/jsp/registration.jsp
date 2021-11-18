@@ -23,7 +23,7 @@
                             <input type="text" class="form-control" id="surname" name="surname" placeholder="podaj nazwisko" value="${param.surname}" required>
                         </div>
                         <c:if test="${param.mail==0}">
-                            <label style="color: red">podany e-mail juz istnieje</label>
+                            <label style="color: #f37878">podany e-mail juz istnieje</label>
                         </c:if>
                         <div class="form-group">
                             <input type="email" class="form-control" id="email" name="email" placeholder="podaj email" value="${param.email}" required>

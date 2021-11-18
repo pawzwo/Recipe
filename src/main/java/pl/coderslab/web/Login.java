@@ -1,6 +1,7 @@
 package pl.coderslab.web;
 
 import pl.coderslab.dao.AdminDao;
+import pl.coderslab.model.Admins;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -28,13 +29,11 @@ public class Login extends HttpServlet {
         if (email != null && password != null && !email.isBlank() && !password.isBlank() && !email.isEmpty() && !password.isEmpty()) {
             if (adminDao.verifyEmail(email)) {
                 if (adminDao.verifyPassword(email, password)) {
-                    int adminId = adminDao.readByEmail(email).getId();
-                    int superadmin = adminDao.readByEmail(email).getSuperAdmin();
+                    Admins adminToSession = adminDao.readByEmail(email);
                     HttpSession session = request.getSession();
-                    session.setAttribute("id", adminId);
-                    session.setAttribute("superadmin", superadmin);
+                    session.setAttribute("admin", adminToSession);
                     session.setMaxInactiveInterval(3600);
-                    response.sendRedirect("/jsp/dashboard.jsp");
+                    response.sendRedirect("/app/dashboard");
                 } else {
                     response.sendRedirect("/login?password=0");
                 }

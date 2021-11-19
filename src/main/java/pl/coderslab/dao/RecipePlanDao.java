@@ -1,5 +1,6 @@
 package pl.coderslab.dao;
 
+import pl.coderslab.exception.NotFoundException;
 import pl.coderslab.model.Recipe;
 import pl.coderslab.model.RecipePlan;
 import pl.coderslab.utils.DbUtil;
@@ -11,7 +12,9 @@ import java.sql.ResultSet;
 public class RecipePlanDao {
 
     private final String CREATE_PLAN_RECIPE_QUERY ="INSERT INTO scrumlab.recipe_plan (recipe_id, meal_name, display_order, day_name_id, plan_id) VALUES (?, ?, ?, ?, ?)";
+    private final String DELETE_PLAN_RECIPE_QUERY = "DELETE FROM recipe_plan WHERE id = ?;";
     private final String CHECK_IF_RECIPE_IS_IN_PLAN ="SELECT * FROM scrumlab.recipe_plan WHERE recipe_id=?";
+
 
 
 
@@ -46,6 +49,16 @@ public class RecipePlanDao {
         return null;
     }
 
+    public void delete(Integer recipePlanId) {
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(DELETE_PLAN_RECIPE_QUERY)) {
+            statement.setInt(1, recipePlanId);
+            statement.executeUpdate();
+
+            boolean deleted = statement.execute();
+            if (!deleted) {
+                throw new NotFoundException("Product not found");
+
     public RecipePlan checkRecipeInPlan(Integer recipeId) {
         RecipePlan recipePlan = new RecipePlan();
         try (Connection connection = DbUtil.getConnection();
@@ -66,13 +79,17 @@ public class RecipePlanDao {
                 if (i==0) {
                     return null;
                 }
+
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+    }
         return recipePlan;
 
     }
+
 
 
 

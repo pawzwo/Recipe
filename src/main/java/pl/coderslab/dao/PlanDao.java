@@ -28,7 +28,7 @@ public class PlanDao {
             "ORDER by day_name.display_order, recipe_plan.display_order;";
     private static final String FIND_ALL_PLANS_BY_ADMIN_QUERY = "SELECT * FROM plan WHERE admin_id=? ORDER BY created DESC;";
     private static final String READ_LAST_PLAN_NAME_QUERY = "SELECT name from plan where id=(SELECT MAX(id) from plan WHERE admin_id = ?)";
-    private static final String READ_PLAN_DETAILS_QUERRY = "SELECT day_name.name as day_name, meal_name,  recipe.name as recipe_name, recipe.description as recipe_description\n" +
+    private static final String READ_PLAN_DETAILS_QUERRY = "SELECT day_name.name as day_name, meal_name,  recipe.name as recipe_name, recipe.id as recipeId\n" +
             "FROM `recipe_plan`\n" +
             "         JOIN day_name on day_name.id=day_name_id\n" +
             "         JOIN recipe on recipe.id=recipe_id WHERE\n" +

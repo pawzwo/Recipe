@@ -66,16 +66,19 @@ public class AppRecipePlanAdd extends HttpServlet {
             for (Plan plan1 : allPlan) {
                 if(plan1.getName().equals(plan)) {
                     planId=plan1.getId();
+                    break;
                 }
             }
             for (Recipe recipe1 : allRec) {
                 if(recipe1.getName().equals(recipe)) {
                     recipeId=recipe1.getId();
+                    break;
                 }
             }
             for (DayName dayName : allDay) {
                 if (dayName.getName().equals(day)) {
                     dayNameId=dayName.getDayNameId();
+                    break;
                 }
             }
 

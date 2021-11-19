@@ -33,6 +33,9 @@ public class Login extends HttpServlet {
                     HttpSession session = request.getSession();
                     session.setAttribute("admin", adminToSession);
                     session.setMaxInactiveInterval(3600);
+                    Cookie cookie = new Cookie("name", adminToSession.getFirstName());
+                    cookie.setMaxAge(3600);
+                    response.addCookie(cookie);
                     response.sendRedirect("/app/dashboard");
                 } else {
                     response.sendRedirect("/login?password=0");

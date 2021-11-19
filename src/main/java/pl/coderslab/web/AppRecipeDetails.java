@@ -16,6 +16,14 @@ public class AppRecipeDetails extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String _recipeId = request.getParameter("recipeId");
         int recipeId = -1;
+        String dashboard = request.getParameter("dashboard");
+        if (dashboard!=null) {
+            request.setAttribute("dashboard",1);
+        }
+        String list = request.getParameter("list");
+        if (list!=null) {
+            request.setAttribute("list",1);
+        }
         try {
             recipeId=Integer.parseInt(_recipeId);
         }catch (NumberFormatException er) {
@@ -25,7 +33,11 @@ public class AppRecipeDetails extends HttpServlet {
         Admins admin = (Admins) session.getAttribute("admin");
         if(idRecipeIdBelongsAdmin(admin.getId(),recipeId)) {
             RecipeDao recipeDao = new RecipeDao();
-            request.setAttribute("recipe",recipeDao.read(recipeId));
+            Recipe read = recipeDao.read(recipeId);
+            String[] ingredients = read.getIngredients().split(",");
+            request.setAttribute("recipe",read);
+            request.setAttribute("ingredients",ingredients);
+
             request.getRequestDispatcher("/jsp/appRecipeDetails.jsp").forward(request,response);
         } else {
             session.removeAttribute("admin");

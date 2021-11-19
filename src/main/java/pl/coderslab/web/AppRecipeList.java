@@ -16,6 +16,17 @@ public class AppRecipeList extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         if(session.getAttribute("admin")!=null) {
+            String _recipeId = request.getParameter("recipeId");
+            if (_recipeId!=null) {
+                int recipeId = Integer.parseInt(_recipeId);
+                request.setAttribute("delete", recipeId);
+            }
+            if (session.getAttribute("planName")!=null) {
+                request.setAttribute("planName",(String)session.getAttribute("planName"));
+                session.removeAttribute("planName");
+            }
+
+
             Admins admin = (Admins) session.getAttribute("admin");
             RecipeDao recipeDao = new RecipeDao();
             List<Recipe> allAdminRecipe = recipeDao.findAllAdminRecipe(admin.getId());

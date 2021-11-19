@@ -5,7 +5,12 @@
         <div class="mt-4 ml-4 mr-4">
             <div class="row border-bottom border-3">
                 <div class="col"><h3 class="color-header text-uppercase">Szczegóły przepisu</h3></div>
+                <c:if test="${param.list==1}">
                 <div class="col d-flex justify-content-end mb-2"><a href="/app/recipe/list" class="btn btn-color rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a></div>
+                </c:if>
+                <c:if test="${param.dashboard==1}">
+                    <div class="col d-flex justify-content-end mb-2"><a href="/app/dashboard" class="btn btn-color rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a></div>
+                </c:if>
             </div>
 
             <table class="table borderless">
@@ -40,7 +45,9 @@
                 </div>
                 <div class="col-2"></div>
                 <ul class="col-5 p-4 list-unstyled">
-                    ${recipe.ingredients}
+                    <c:forEach items="${ingredients}" var="ingr">
+                        <li>${ingr}</li>
+                    </c:forEach>
                 </ul>
             </div>
 

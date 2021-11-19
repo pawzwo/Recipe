@@ -73,6 +73,7 @@ public class PlanDao {
                     plan.setDescription(resultSet.getString("description"));
                     plan.setCreated(resultSet.getString("created"));
                     plan.setAdminId(resultSet.getInt("admin_id"));
+
                     planListByAdmin.add(plan);
                 }
             }
@@ -112,6 +113,8 @@ public class PlanDao {
                     planDay.setRecipeName(resultSet.getString("recipe_name"));
                     planDay.setRecipeId(resultSet.getInt("recipeId"));
                     planDaysList.add(planDay);
+
+
                 }
             }
         } catch (Exception e) {

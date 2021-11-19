@@ -24,7 +24,7 @@ public class RecipeDao {
             "WHERE	id = ?;";
     private static final String SELECT_RECIPES_BY_ID_QUERY = "SELECT COUNT(*) AS recipes FROM recipe WHERE admin_id=?";
     private static final String FIND_ALL_ADMIN_RECIPES_QUERY = "SELECT * FROM scrumlab.recipe WHERE admin_id=?;";
-
+    private static final String CHECK_IF_ADMIN_HAS_RECIPE_QUERY = "SELECT * FROM scrumlab.recipe WHERE admin_id=? AND id=?;";
     /**
      * Get book by id
      *
@@ -217,6 +217,33 @@ public class RecipeDao {
             e.printStackTrace();
         }
         return recipeList;
+
+    }
+
+    public Recipe readAdminRecipe(int recipeId, int adminId) {
+        Recipe recipe = new Recipe();
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(CHECK_IF_ADMIN_HAS_RECIPE_QUERY)
+        ) {
+            statement.setInt(1, adminId);
+            statement.setInt(2, recipeId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    recipe.setId(resultSet.getInt("id"));
+                    recipe.setName(resultSet.getString("name"));
+                    recipe.setIngredients(resultSet.getString("ingredients"));
+                    recipe.setDescription(resultSet.getString("description"));
+                    recipe.setCreated(resultSet.getString("created"));
+                    recipe.setUpdated(resultSet.getString("updated"));
+                    recipe.setPreparationTime(resultSet.getInt("preparation_time"));
+                    recipe.setPreparation(resultSet.getString("preparation"));
+                    recipe.setAdminId(resultSet.getInt("admin_id"));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return recipe;
 
     }
 

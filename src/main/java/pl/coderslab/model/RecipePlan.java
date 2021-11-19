@@ -16,6 +16,9 @@ public class RecipePlan {
         this.planId = planId;
     }
 
+    public RecipePlan() {
+    }
+
     public int getId() {
         return id;
     }

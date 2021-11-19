@@ -5,13 +5,13 @@ public class PlanDays {
     private String dayName = "";
     private String mealName = "";
     private String recipeName = "";
-    private String recipeDescription = "";
+    private int recipeId;
 
-    public PlanDays(String dayName, String mealName, String recipeName, String recipeDescription) {
+    public PlanDays(String dayName, String mealName, String recipeName, int recipeId) {
         this.dayName = dayName;
         this.mealName = mealName;
         this.recipeName = recipeName;
-        this.recipeDescription = recipeDescription;
+        this.recipeId = recipeId;
     }
 
     public PlanDays() {
@@ -23,7 +23,7 @@ public class PlanDays {
                 "dayName='" + dayName + '\'' +
                 ", mealName='" + mealName + '\'' +
                 ", recipeName='" + recipeName + '\'' +
-                ", recipeDescription='" + recipeDescription + '\'' +
+                ", recipeDescription='" + recipeId + '\'' +
                 '}';
     }
 
@@ -51,11 +51,11 @@ public class PlanDays {
         this.recipeName = recipeName;
     }
 
-    public String getRecipeDescription() {
-        return recipeDescription;
+    public int getRecipeId() {
+        return recipeId;
     }
 
-    public void setRecipeDescription(String recipeDescription) {
-        this.recipeDescription = recipeDescription;
+    public void setRecipeId(int recipeId) {
+        this.recipeId = recipeId;
     }
 }

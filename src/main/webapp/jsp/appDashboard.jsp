@@ -55,7 +55,7 @@
                     <tr class="d-flex">
                         <td class="col-2">${planday.mealName}</td>
                         <td class="col-8">${planday.recipeName}</td>
-                        <td class="col-2"><button type="button" class="btn btn-primary rounded-0">Szczegóły</button></td>
+                        <td class="col-2"><a href="/app/recipe/details?recipeId=${planday.recipeId}" class="btn btn-primary rounded-0">Szczegóły</a></td>
                     </tr>
                     </tbody>
                         </c:if>

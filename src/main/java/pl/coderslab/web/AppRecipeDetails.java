@@ -31,8 +31,8 @@ public class AppRecipeDetails extends HttpServlet {
         }
         HttpSession session = request.getSession();
         Admins admin = (Admins) session.getAttribute("admin");
-        if(idRecipeIdBelongsAdmin(admin.getId(),recipeId)) {
-            RecipeDao recipeDao = new RecipeDao();
+        RecipeDao recipeDao = new RecipeDao();
+        if(recipeDao.readAdminRecipe(recipeId, admin.getId())!=null) {
             Recipe read = recipeDao.read(recipeId);
             String[] ingredients = read.getIngredients().split(",");
             request.setAttribute("recipe",read);
@@ -50,16 +50,4 @@ public class AppRecipeDetails extends HttpServlet {
 
     }
 
-    private boolean idRecipeIdBelongsAdmin (int adminId, int recipeId) {
-        RecipeDao recipeDao = new RecipeDao();
-        List<Recipe> allAdminRecipe = recipeDao.findAllAdminRecipe(adminId);
-        boolean ifOk = false;
-        for (Recipe recipe : allAdminRecipe) {
-            if(recipe.getId()==recipeId) {
-                ifOk=true;
-                break;
-            }
-        }
-        return  ifOk;
-    }
 }
